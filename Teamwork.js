@@ -1,73 +1,53 @@
-const newsSources = {
-    "Tehnoloogia": [
-        "Apple on parim",
-        "Microsoft paneb uksed kinni"
-    ],
-    "Spordiuudised": [
-        "Ott Tänak pani vastu puud.",
-        "Trevor võitis 100m jooksu."
-    ],
-    "Majandus": [
-        "Eesti majandus langes 3% võrra.",
-        "Ameerika kaotas oma tornid."
-    ]
-};
-
-
-function getRandomDate() {
-    const today = new Date();
-    const pastDate = new Date(today);
-    const randomDaysAgo = Math.floor(Math.random() * 7);
-    pastDate.setDate(today.getDate() - randomDaysAgo);
-    return pastDate.toISOString().split('T')[0];
+function juhuslikKuupäev() {
+    const d = new Date();
+    d.setDate(d.getDate() - Math.floor(Math.random() * 7));
+    return d.toISOString().split('T')[0];
 }
 
-function generateNewsList(category) {
-    const newsList = newsSources[category].map(news => {
-        return `${getRandomDate()} - ${news}`;
-    });
-    return newsList;
+function lisaKuupäev(uudised) {
+    return uudised.map(u => `${juhuslikKuupäev()} - ${u}`);
 }
 
-function main() {
-    let continueProgram = true;
+function ValiUudis() {
+    let kasJatkata = true;
 
-    while (continueProgram) {
-        const category = prompt(
-            "Vali kategooria:\n1. Tehnoloogia\n2. Spordiuudised\n3. Majandus"
-        );
+    while (kasJatkata) {
+        let newsSource = prompt("Milliseid uudiseid soovid näha? (Tehnoloogia, Majandus, Spordiuudised)");
+        let uudised;
 
-        let categoryName = "";
-        switch (category) {
-            case "1":
-                categoryName = "Tehnoloogia";
+        switch (newsSource) {
+            case "Tehnoloogia":
+                uudised = [
+                    "Apple on parim",
+                    "Microsoft paneb uksed kinni",
+                    "Google arendab uut AI-d"
+                ];
                 break;
-            case "2":
-                categoryName = "Spordiuudised";
+            case "Majandus":
+                uudised = [
+                    "Eesti majandus langes 3% võrra",
+                    "Ameerika kaotas oma tornid",
+                ];
                 break;
-            case "3":
-                categoryName = "Majandus";
+            case "Spordiuudised":
+                uudised = [
+                    "Ott Tänak pani vastu puud",
+                    "Trevor võitis 100m jooksu",
+                ];
                 break;
             default:
-                alert("Vale valik. Proovi uuesti.");
+                alert("Palun vali üks järgmistest: Tehnoloogia, Majandus või Spordiuudised.");
                 continue;
         }
 
-        let newsList = generateNewsList(categoryName);
-        alert("Uudised:\n" + newsList.join("\n"));
+        const uudisedKuupaevaga = lisaKuupäev(uudised);
+        alert("Uudised:\n" + uudisedKuupaevaga.join("\n"));
 
-        const newNews = prompt("Soovid lisada uue uudise? (Jah/Ei)");
-        if (newNews.toLowerCase() === "jah") {
-            const userNews = prompt("Sisesta uus uudis:");
-            newsSources[categoryName].push(userNews);
-            alert("Uudis lisatud.");
-        }
-
-        const retry = prompt("Soovid nimekirja uuesti genereerida? (Jah/Ei)");
-        if (retry.toLowerCase() !== "jah") {
-            continueProgram = false;
+        const uuesti = prompt("Kas soovid uuesti genereerida? (jah/ei)").toLowerCase();
+        if (uuesti !== "jah") {
+            kasJatkata = false;
         }
     }
 }
 
-main();
+ValiUudis();
