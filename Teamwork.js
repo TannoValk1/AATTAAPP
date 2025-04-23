@@ -35,8 +35,6 @@ function ValiUudis() {
                     "Trevor võitis 100m jooksu",
                 ];
                 break;
-            default:
-                alert("Palun vali üks järgmistest: Tehnoloogia, Majandus või Spordiuudised.");
                 continue;
         }
 
